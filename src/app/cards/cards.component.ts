@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { config } from 'rxjs';
 import { CardModalComponent } from './card-modal/card-modal.component';
+import { CardService } from '../service/card.service';
+import { Card } from '../models/card'
 
 @Component({
   selector: 'app-cards',
@@ -10,24 +11,27 @@ import { CardModalComponent } from './card-modal/card-modal.component';
 })
 export class CardsComponent implements OnInit {
 
-cardItem = {
-  title: 'Frontend Developer',
-  name: 'Muzaffer AYDOĞDU',
-  phone:'5427777777',
-  email : 'ay@gmail.com',
-  address : 'Osmangazi Bursa'
-}
-
+  cards!: Card[];
 
   constructor(
-    public dialog : MatDialog
+    public dialog: MatDialog,
+    public cardService: CardService
   ) { }
 
   ngOnInit(): void {
+    this.getCards();
   }
 
   openAddCardModal() {
-    this.dialog.open(CardModalComponent,{width:"400px"})
+    this.dialog.open(CardModalComponent, { width: "400px" })
+
+  }
+
+  getCards(): void {
+    this.cardService.getCards().subscribe((res: Card[]) => {
+      this.cards = res
+      console.log(res)
+    })
 
   }
 
