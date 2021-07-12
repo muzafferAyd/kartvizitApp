@@ -4,5 +4,6 @@ export interface Card {
     phone: string;
     email?: string;
     address?: string;
-    
+    id: number;
+
 }
